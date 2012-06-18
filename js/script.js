@@ -1,17 +1,27 @@
+/**
+ * @author juan camilo estela / http://mecannical.com/
+ * 
+ * Simple Labyrinth Game made in HTML5
+ */
 	
-	window.requestAnimFrame = (function(){
-      return  window.requestAnimationFrame       || 
-              window.webkitRequestAnimationFrame || 
-              window.mozRequestAnimationFrame    || 
-              window.oRequestAnimationFrame      || 
-              window.msRequestAnimationFrame     || 
-              function( callback ){
-                window.setTimeout(callback, 1000 / 60);
-              };
-    })();
+
+// thanks to paul irish
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       || 
+          window.webkitRequestAnimationFrame || 
+          window.mozRequestAnimationFrame    || 
+          window.oRequestAnimationFrame      || 
+          window.msRequestAnimationFrame     || 
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
+})();
 
     	
-		
+
+(function(){
+
+
 		var	board = document.getElementById('board');
 
 		var alpha = 0,
@@ -64,13 +74,13 @@
 			gamma = g;//(orientation == 'PORTRAIT') ? g : b;
 		}, false);
 
-		window.addEventListener('devicemotion', function(event){
+		/* UNUSED window.addEventListener('devicemotion', function(event){
 			acceleration = {
 				x: event.acceleration.x,
 				y: event.acceleration.y,
 				z: event.acceleration.z
 			};
-		}, true);
+		}, true);*/
 
 		var x = 30,
 			y = 30,
@@ -142,81 +152,28 @@
 					var xy = minX * offset.y,
 						yx = minY * offset.x;
 
-
-						if (xy > yx){
-					        if (xy > -yx){
-					            // collides with top side
-					            velocity.y *= -1 * impactFriction.y;
-					            y = level.walls[i].y - 25;
-					        }else{
-					            // collides with right side
-					            velocity.x *= -1 * impactFriction.x;
-					            x = level.walls[i].x + level.walls[i].w;
-					        }
-					    }else{
-					        if (xy > -yx){
-					            // collides with left side
-					            velocity.x *= -1 * impactFriction.x;
-					            x = level.walls[i].x - 25;
-					        }else{
-					            // collides with bottom side
-					            velocity.y *= -1 * impactFriction.y;
-					            y = level.walls[i].y + level.walls[i].h;
-					        }
-					    }
+					if (xy > yx){
+				        if (xy > -yx){
+				            // collides with top side
+				            velocity.y *= -1 * impactFriction.y;
+				            y = level.walls[i].y - 25;
+				        }else{
+				            // collides with right side
+				            velocity.x *= -1 * impactFriction.x;
+				            x = level.walls[i].x + level.walls[i].w;
+				        }
+				    }else{
+				        if (xy > -yx){
+				            // collides with left side
+				            velocity.x *= -1 * impactFriction.x;
+				            x = level.walls[i].x - 25;
+				        }else{
+				            // collides with bottom side
+				            velocity.y *= -1 * impactFriction.y;
+				            y = level.walls[i].y + level.walls[i].h;
+				        }
+				    }
 				}
-
-				/*var	yy = -1000,
-					xx = -1000;
-
-				var m = (y - oldY)/(x - oldX);
-
-				if (oldX <= level.walls[i].x && x > level.walls[i].x){ 
-					// crossed to the right
-					yy = m * (level.walls[i].x - oldX) + oldY;
-					_x = level.walls[i].x;
-					console.log('crossed to the right ',yy);
-				}else if(oldX >= level.walls[i].x + level.walls[i].w && x < level.walls[i].x + level.walls[i].w){ 
-					// crossed to the left
-					yy = m * (level.walls[i].x + level.walls[i].w - oldX) + oldY;
-					_x = level.walls[i].x + level.walls[i].w;
-					console.log('crossed to the left ',yy);
-				}
-
-				m = (x - oldX)/(y - oldY);
-
-				if (oldY < level.walls[i].y && y > level.walls[i].y){
-					// crossed down
-					xx = m * (level.walls[i].y - oldY) + oldX;
-					_y = level.walls[i].y;// - 0.1;
-					console.log('crossed down ',xx);
-				}else if (oldY > level.walls[i].y + level.walls[i].h && y < level.walls[i].y + level.walls[i].h){
-					// crossed up
-					xx = m * (level.walls[i].y + level.walls[i].h - oldY) + oldX;
-					_y = level.walls[i].y + level.walls[i].h;// + 0.1;
-					console.log('crossed up ',xx);
-				}
-
-
-				if (level.walls[i].y < yy && yy < level.walls[i].y + level.walls[i].h){
-					if (vX != 0)
-						velocity.x *= -1 * impactFriction.x;
-					console.log('collided x',i);
-					level.walls[i].element.style.backgroundColor = '#ff0000';
-					x = _x;
-					y = _y;
-					break;
-				}
-
-				if (level.walls[i].x < xx && xx < level.walls[i].x + level.walls[i].w){
-					if (vY != 0)
-						velocity.y *= -1 * impactFriction.y;
-					console.log('collided y',i);
-					level.walls[i].element.style.backgroundColor = '#ff0000';
-					
-					break;
-				}*/
-
 				
 			}
 			
@@ -338,7 +295,7 @@
     			{x: 465,y: 5},
     			{x: 465,y: 45, isGoal: true}
     		]
-    	}
+    	};
 
 		function loadLevel(level){
 			var i;
@@ -385,7 +342,10 @@
 			board.appendChild(ball);
 		}
 
+		// init
 		(function(){
 			loadLevel(level);
 			calibrate();
 		})();
+
+})();
